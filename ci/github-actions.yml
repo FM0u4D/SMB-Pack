@@ -1,20 +1,39 @@
-name: SMB Boundary Validation
+name: SMB Server & Boundary Validation Gate
+timeout-minutes: 5
+
 
 on:
     push:
-        paths:
-            - server/**
-            - run-demo.sh
+    paths:
+        - server/**
+        - run-demo.sh
+        - ci/github-actions.yml
     schedule:
-        - cron: "0 */6 * * *"   # drift detection
+        # Drift detection: ensure boundary & permissions remain enforced
+        - cron: "0 */6 * * *"
+
+defaults:
+    run:
+        shell: bash
+
+env:
+    SMB_SHARE: Public
+    SMB_USER: adminsmb
+    VPN_SUBNET: 10.8.0.0/24
 
 jobs:
     validate:
+        name: SMB Server & Boundary Validation Gate
         runs-on: self-hosted
-        steps:
-            - uses: actions/checkout@v4
-            - name: Server validation
-                run: sudo ./server/validate.sh
-            - name: Policy gate
-                run: sudo ./run-demo.sh
+        timeout-minutes: 5
+
+    steps:
+        - name: Checkout repository
+        uses: actions/checkout@v4
+
+        - name: Server sanity & visibility checks
+        run: sudo ./server/validate.sh
+
+        - name: Policy gate - VPN-only SMB boundary
+        run: sudo ./run-demo.sh
 
