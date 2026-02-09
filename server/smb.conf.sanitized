@@ -1,0 +1,68 @@
+# smb.conf.sanitized
+# Purpose: minimal, share-focused Samba config for "SMB over WireGuard" case study.
+# Sanitized: no machine-specific secrets, safe defaults, clear intent.
+# Notes:
+# - Keep interface exposure primarily controlled by UFW (recommended).
+# - Run: sudo testparm -s  (must be clean)
+
+[global]
+    # Identity
+    workgroup = WORKGROUP
+    server string = %h (Samba)
+
+    # Networking (keep UFW as the real boundary; Samba interface pinning kept loose)
+    # If you WANT Samba to bind only to specific interfaces, set:
+    #   interfaces = lo eth0 wg0-client 10.8.0.0/24
+    #   bind interfaces only = yes
+    interfaces = lo eth0 10.8.0.0/24
+
+    # Hardening / Protocols
+    disable netbios = yes
+    server services = -nbt
+    ntlm auth = ntlmv2-only
+
+    server min protocol = SMB2
+    server max protocol = SMB3
+
+    # Signing/encryption (keep if you intentionally want strict SMB over VPN)
+    server signing = mandatory
+    client signing = mandatory
+    smb encrypt = required
+
+    # Logging (portable + useful for proof)
+    logging = file
+    log file = /var/log/samba/log.%m
+    max log size = 1000
+
+    # Standalone auth
+    server role = standalone server
+    obey pam restrictions = yes
+    unix password sync = yes
+    pam password change = yes
+    map to guest = bad user
+
+    # Usershare (keep if you use it; otherwise set to no)
+    usershare allow guests = yes
+
+
+# ===================== Shares =====================
+
+[Public]
+    path = /srv/samba/public
+    browseable = yes
+    read only = yes
+    guest ok = yes
+
+    # Optional: keep Public predictable for Windows clients
+    # force user = adminsmb
+    # force group = adminsmb
+
+[Direction]
+    path = /srv/samba/public/direction
+    browseable = yes
+    read only = no
+    valid users = adminsmb
+
+    # If you want consistent ownership on writes
+    # force user = adminsmb
+    # force group = adminsmb
