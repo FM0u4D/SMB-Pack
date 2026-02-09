@@ -1,0 +1,20 @@
+name: SMB Boundary Validation
+
+on:
+    push:
+        paths:
+            - server/**
+            - run-demo.sh
+    schedule:
+        - cron: "0 */6 * * *"   # drift detection
+
+jobs:
+    validate:
+        runs-on: self-hosted
+        steps:
+            - uses: actions/checkout@v4
+            - name: Server validation
+                run: sudo ./server/validate.sh
+            - name: Policy gate
+                run: sudo ./run-demo.sh
+

@@ -1,0 +1,64 @@
+<svg width="1000" height="420" viewBox="0 0 1000 420" xmlns="http://www.w3.org/2000/svg" font-family="Inter, Arial, sans-serif">
+
+  <rect width="1000" height="420" fill="#0d1117"></rect>
+
+  <text x="500" y="32" text-anchor="middle" fill="#f0f6fc" font-size="18" font-weight="600">
+    Windows Authentication Flow — SMB vs WebDAV
+  </text>
+
+  <!-- Windows Explorer -->
+  <rect x="60" y="140" width="200" height="100" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="2"></rect>
+  <text x="160" y="175" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="600">
+    Windows Explorer
+  </text>
+  <text x="160" y="195" text-anchor="middle" fill="#8b949e" font-size="12">
+    UNC Path Access
+  </text>
+
+  <!-- Provider Order -->
+  <rect x="320" y="90" width="320" height="200" rx="12" fill="#161b22" stroke="#f0f6fc" stroke-width="2"></rect>
+  <text x="480" y="120" text-anchor="middle" fill="#f0f6fc" font-size="14" font-weight="600">
+    Windows Network Provider Order
+  </text>
+
+  <rect x="350" y="145" width="260" height="45" rx="8" fill="#0b1f33" stroke="#2ea043" stroke-width="2"></rect>
+  <text x="480" y="172" text-anchor="middle" fill="#e6edf3" font-size="12">
+    LanmanWorkstation (SMB)
+  </text>
+
+  <rect x="350" y="205" width="260" height="45" rx="8" fill="#331c1f" stroke="#f85149" stroke-width="2"></rect>
+  <text x="480" y="232" text-anchor="middle" fill="#e6edf3" font-size="12">
+    WebClient (WebDAV)
+  </text>
+
+  <!-- Samba -->
+  <rect x="720" y="140" width="220" height="100" rx="10" fill="#161b22" stroke="#58a6ff" stroke-width="2"></rect>
+  <text x="830" y="175" text-anchor="middle" fill="#e6edf3" font-size="14" font-weight="600">
+    Samba Server
+  </text>
+  <text x="830" y="195" text-anchor="middle" fill="#8b949e" font-size="12">
+    SMB2 / SMB3
+  </text>
+
+  <!-- Arrows -->
+  <line x1="260" y1="190" x2="320" y2="190" stroke="#2ea043" stroke-width="3" marker-end="url(#arrow)"></line>
+
+  <line x1="640" y1="170" x2="720" y2="170" stroke="#2ea043" stroke-width="3" marker-end="url(#arrow)"></line>
+
+  <!-- WebDAV Failure -->
+  <line x1="640" y1="230" x2="720" y2="230" stroke="#f85149" stroke-width="3" stroke-dasharray="6,4"></line>
+
+  <text x="780" y="260" fill="#f85149" font-size="11" text-anchor="middle">
+    Certificate prompt (Not SMB)
+  </text>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#2ea043"></polygon>
+    </marker>
+  </defs>
+
+  <text x="500" y="390" text-anchor="middle" fill="#8b949e" font-size="11">
+    Root cause: WebClient intercepted UNC paths and triggered certificate-based authentication
+  </text>
+</svg>
