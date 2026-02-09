@@ -279,7 +279,7 @@ The following screenshots provide evidence that the system reached a verified he
 
 ![Local SMB functional test (smbclient)](./proof/02-smb-local-test.png)
 
-![Firewall rules – SMB scoped to WireGuard](./proof/03-firewall-rules.png)
+![Firewall rules – SMB scoped to WireGuard](./proof/03-Firewall-rules.png)
 
 ![SMB listening state (TCP/445)](./proof/04-ss-445.png)
 
